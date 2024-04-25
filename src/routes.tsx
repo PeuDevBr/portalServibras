@@ -3,6 +3,8 @@ import { Home } from "./pages/app/home";
 import { NewOrder } from "./pages/app/orders/newOrder";
 import { HomeLayout } from "./pages/_layouts/homeLayout";
 import { OrderLayout } from "./pages/_layouts/orderLayout";
+import { AuthLayout } from "./pages/_layouts/authLayout";
+import { SignIn } from "./pages/auth/sign-in";
 
 export const router = createBrowserRouter([
   {
@@ -14,5 +16,10 @@ export const router = createBrowserRouter([
     path: "/",
     element: <OrderLayout />,
     children: [{ path: "/orders", element: <NewOrder /> }],
+  },
+  {
+    path: "/",
+    element: <AuthLayout />,
+    children: [{ path: "/sign-in", element: <SignIn /> }],
   },
 ]);

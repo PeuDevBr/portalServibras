@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,18 +11,25 @@ const signInForm = z.object({
   email: z.string().email(),
 });
 
-type signInForm = z.infer<typeof signInForm>;
+type SignInForm = z.infer<typeof signInForm>;
 
 export function SignIn() {
   const {
     register,
     handleSubmit,
     formState: { isSubmitting },
-  } = useForm<signInForm>();
+  } = useForm<SignInForm>();
 
-  async function handleLogin(data: signInForm) {
-    console.log(data);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+  async function handleLogin(data: SignInForm) {
+    try {
+      console.log(data);
+
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      toast.success("Login efetuado com sucesso!");
+    } catch {
+      toast.error("Não foi possível efetuar o login!");
+    }
   }
 
   return (
