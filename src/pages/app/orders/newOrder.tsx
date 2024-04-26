@@ -11,9 +11,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 const newOrderForm = z.object({
-  technician: z.string(),
-  part: z.string(),
-  quantity: z.number(),
+  technicianName: z.string(),
+  itemDescription: z.string(),
+  amount: z.number(),
 });
 
 type newOrderForm = z.infer<typeof newOrderForm>;
@@ -37,9 +37,9 @@ export function NewOrder() {
 
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
-      toast.success("Login efetuado com sucesso!");
+      toast.success("Requisição adicionada com sucesso!");
     } catch {
-      toast.error("Não foi possível efetuar o login!");
+      toast.error("Erro ao adicionar peça!");
     }
   }
 
@@ -56,16 +56,26 @@ export function NewOrder() {
 
           <form onSubmit={handleSubmit(handleLogin)} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="technician">Nome do técnico</Label>
-              <Input id="technician" type="text" {...register("technician")} />
+              <Label htmlFor="technicianName">Nome do técnico</Label>
+              <Input
+                id="technicianName"
+                type="text"
+                {...register("technicianName")}
+                required
+              />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="part">Descrição do item</Label>
-              <Input id="part" type="text" {...register("part")} />
+              <Label htmlFor="itemDescription">Descrição do item</Label>
+              <Input id="itemDescription" type="text" {...register("itemDescription")} required />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="quantity">Quantidade</Label>
-              <Input id="quantity" type="number" {...register("quantity")} />
+              <Label htmlFor="amount">Quantidade</Label>
+              <Input
+                id="amount"
+                type="number"
+                {...register("amount")}
+                required
+              />
             </div>
 
             <Button disabled={isSubmitting} className="w-full" type="submit">
