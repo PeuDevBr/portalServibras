@@ -7,6 +7,7 @@ import {
   updateDoc,
   getDocs,
   query,
+  deleteDoc,
 } from "firebase/firestore";
 
 const dbCollection = "requisitions";
@@ -25,6 +26,14 @@ export async function setRequisitionsAcess(body: any, id: string) {
 
 export async function updateRequisitionsAcess(body: any, id: string) {
   const response = await updateDoc(doc(db, dbCollection, id), body);
+
+  return response;
+}
+
+export async function deleteRequisitionsAcess(id: string) {
+  const requsitionDoc = doc(db, dbCollection, id);
+
+  const response = await deleteDoc(requsitionDoc);
 
   return response;
 }

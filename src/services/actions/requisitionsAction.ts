@@ -1,5 +1,6 @@
 import {
   addRequisitionsAcess,
+  deleteRequisitionsAcess,
   getRequisitionsAcess,
   setRequisitionsAcess,
   updateRequisitionsAcess,
@@ -19,6 +20,12 @@ export async function setRequisitionsAction(body: any, id: string) {
 
 export async function updateRequisitionsAction(body: any, id: string) {
   const response = await updateRequisitionsAcess(body, id);
+
+  return response;
+}
+
+export async function deleteRequisitionsAction(id: string) {
+  const response = await deleteRequisitionsAcess(id);
 
   return response;
 }

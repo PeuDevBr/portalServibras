@@ -17,7 +17,7 @@ export function Home() {
           <Link to={"/list"}>Lista de Requisições</Link>
         </Button>
         <Button variant={"outline"} size={"lg"} className="text-xl" asChild>
-          <Link to={"/orders"}>Requisição de Peça</Link>
+          <Link to={"/"}>Requisição de Peça</Link>
         </Button>
       </div>
     </>

@@ -19,12 +19,12 @@ const newOrderForm = z.object({
 
 type newOrderForm = z.infer<typeof newOrderForm>;
 
-export function NewOrder() {
+export function NewOrder({ DialogClose }: any) {
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting },
-  } = useForm<newOrderForm>();
+    formState: { isValid },
+  } = useForm<newOrderForm>({ mode: "onChange" });
 
   async function handleAddNewRequisition(data: newOrderForm) {
     try {
@@ -48,65 +48,59 @@ export function NewOrder() {
       );
 
       await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      toast.success("Requisição adicionada com sucesso!");
     } catch (e) {
-      console.log(e);
+      toast.error(`Error: ${e}`);
     }
   }
 
   return (
     <>
       <Helmet title="Nova Requisição" />
-      <div className="flex min-h-screen items-center justify-center p-8">
-        <div className="flex w-[350px] flex-col justify-center gap-6">
-          <div className="text-center">
-            <h1 className="text-2xl font-semibold tracking-tight">
-              Nova requisição
-            </h1>
+      <div className="ml-4 flex w-[350px] flex-col justify-center gap-6">
+        <div className="text-center">
+          <h1 className="text-2xl font-semibold tracking-tight">
+            Nova requisição
+          </h1>
+        </div>
+
+        <form
+          onSubmit={handleSubmit(handleAddNewRequisition)}
+          className="space-y-4"
+        >
+          <div className="space-y-2">
+            <Label htmlFor="technicianName">Nome do técnico</Label>
+            <Input
+              id="technicianName"
+              type="text"
+              {...register("technicianName", { required: true })}
+            />
           </div>
-
-          <form
-            onSubmit={handleSubmit(handleAddNewRequisition)}
-            className="space-y-4"
-          >
-            <div className="space-y-2">
-              <Label htmlFor="technicianName">Nome do técnico</Label>
-              <Input
-                id="technicianName"
-                type="text"
-                {...register("technicianName")}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="itemDescription">Descrição do item</Label>
-              <Input
-                id="itemDescription"
-                type="text"
-                {...register("itemDescription")}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="amount">Quantidade</Label>
-              <Input
-                id="amount"
-                type="number"
-                {...register("amount")}
-                required
-              />
-            </div>
-
+          <div className="space-y-2">
+            <Label htmlFor="itemDescription">Descrição do item</Label>
+            <Input
+              id="itemDescription"
+              type="text"
+              {...register("itemDescription", { required: true })}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="amount">Quantidade</Label>
+            <Input
+              id="amount"
+              type="number"
+              {...register("amount", { required: true })}
+            />
+          </div>
+          <DialogClose asChild>
             <Button
-              disabled={isSubmitting}
+              disabled={(!isValid)}
               className="w-full text-lg"
               type="submit"
             >
               Adicionar
             </Button>
-          </form>
-        </div>
+          </DialogClose>
+        </form>
       </div>
     </>
   );
