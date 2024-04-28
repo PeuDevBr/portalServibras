@@ -33,7 +33,8 @@ export function NewOrder() {
         }),
       );
 
-      console.log({ ...data, openingDate });
+      const date = new Date().getTime();
+      console.log({ ...data, openingDate, date });
 
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
@@ -66,7 +67,12 @@ export function NewOrder() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="itemDescription">Descrição do item</Label>
-              <Input id="itemDescription" type="text" {...register("itemDescription")} required />
+              <Input
+                id="itemDescription"
+                type="text"
+                {...register("itemDescription")}
+                required
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="amount">Quantidade</Label>
@@ -78,8 +84,12 @@ export function NewOrder() {
               />
             </div>
 
-            <Button disabled={isSubmitting} className="w-full" type="submit">
-              Adicionar requisição
+            <Button
+              disabled={isSubmitting}
+              className="w-full text-lg"
+              type="submit"
+            >
+              Adicionar
             </Button>
           </form>
         </div>
