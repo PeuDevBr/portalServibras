@@ -14,7 +14,7 @@ export function Home() {
           <Link to={"/"}>Catálogo de Peças</Link>
         </Button>
         <Button variant={"outline"} size={"lg"} className="text-xl" asChild>
-          <Link to={"/"}>Ordem de Serviço</Link>
+          <Link to={"/list"}>Lista de Requisições</Link>
         </Button>
         <Button variant={"outline"} size={"lg"} className="text-xl" asChild>
           <Link to={"/orders"}>Requisição de Peça</Link>

@@ -11,7 +11,7 @@ export function App() {
       <ThemeProvider storageKey="portalServibras-theme" defaultTheme="dark">
         <Helmet titleTemplate="%s | Portal Servibras" />
         <Toaster richColors />
-        <RouterProvider router={router} />;
+        <RouterProvider router={router} />
       </ThemeProvider>
     </HelmetProvider>
   );

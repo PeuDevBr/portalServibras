@@ -9,6 +9,7 @@ import { ptBR } from "date-fns/locale/pt-BR";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { setRequisitionsAction } from "@/services/actions/requisitionsAction";
 
 const newOrderForm = z.object({
   technicianName: z.string(),
@@ -25,7 +26,7 @@ export function NewOrder() {
     formState: { isSubmitting },
   } = useForm<newOrderForm>();
 
-  async function handleLogin(data: newOrderForm) {
+  async function handleAddNewRequisition(data: newOrderForm) {
     try {
       const openingDate = String(
         format(new Date(), " d 'de' LLLL 'de' yyyy", {
@@ -33,14 +34,24 @@ export function NewOrder() {
         }),
       );
 
-      const date = new Date().getTime();
-      console.log({ ...data, openingDate, date });
+      const id = String(new Date().getTime());
+
+      setRequisitionsAction(
+        {
+          technicianName: data.technicianName,
+          itemDescription: data.itemDescription,
+          amount: data.amount,
+          openingDate,
+          id,
+        },
+        id,
+      );
 
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
       toast.success("Requisição adicionada com sucesso!");
-    } catch {
-      toast.error("Erro ao adicionar peça!");
+    } catch (e) {
+      console.log(e);
     }
   }
 
@@ -55,7 +66,10 @@ export function NewOrder() {
             </h1>
           </div>
 
-          <form onSubmit={handleSubmit(handleLogin)} className="space-y-4">
+          <form
+            onSubmit={handleSubmit(handleAddNewRequisition)}
+            className="space-y-4"
+          >
             <div className="space-y-2">
               <Label htmlFor="technicianName">Nome do técnico</Label>
               <Input
