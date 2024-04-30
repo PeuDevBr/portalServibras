@@ -19,7 +19,7 @@ const newOrderForm = z.object({
 
 type newOrderForm = z.infer<typeof newOrderForm>;
 
-export function NewOrder({ DialogClose }: any) {
+export function NewRequisition({ DialogClose }: any) {
   const {
     register,
     handleSubmit,
@@ -38,16 +38,14 @@ export function NewOrder({ DialogClose }: any) {
 
       setRequisitionsAction(
         {
-          technicianName: data.technicianName,
-          itemDescription: data.itemDescription,
+          technicianName: data.technicianName.toUpperCase(),
+          itemDescription: data.itemDescription.toUpperCase(),
           amount: data.amount,
           openingDate,
           id,
         },
         id,
       );
-
-      await new Promise((resolve) => setTimeout(resolve, 2000));
     } catch (e) {
       toast.error(`Error: ${e}`);
     }
@@ -93,7 +91,7 @@ export function NewOrder({ DialogClose }: any) {
           </div>
           <DialogClose asChild>
             <Button
-              disabled={(!isValid)}
+              disabled={!isValid}
               className="w-full text-lg"
               type="submit"
             >
