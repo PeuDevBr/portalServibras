@@ -10,27 +10,27 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 
-const dbCollection = "requisitions";
+const dbCollection = "partsOrders";
 
-export async function addRequisitionsAcess(body: any) {
+export async function addOrdersAcess(body: any) {
   const response = await addDoc(collection(db, dbCollection), body);
 
   return response;
 }
 
-export async function setRequisitionsAcess(body: any, id: string) {
+export async function setOrdersAcess(body: any, id: string) {
   const response = await setDoc(doc(db, dbCollection, id), body);
 
   return response;
 }
 
-export async function updateRequisitionsAcess(body: any, id: string) {
+export async function updateOrdersAcess(body: any, id: string) {
   const response = await updateDoc(doc(db, dbCollection, id), body);
 
   return response;
 }
 
-export async function deleteRequisitionsAcess(id: string) {
+export async function deleteOrdersAcess(id: string) {
   const requsitionDoc = doc(db, dbCollection, id);
 
   const response = await deleteDoc(requsitionDoc);
@@ -38,9 +38,15 @@ export async function deleteRequisitionsAcess(id: string) {
   return response;
 }
 
-export async function getRequisitionsAcess() {
+export async function getOrdersAcess() {
   const q = query(collection(db, dbCollection));
   const response = await getDocs(q);
 
-  return response;
+  const requisitions: any[] = [];
+
+  response.forEach((doc) => {
+    requisitions.push(doc.data());
+  });
+
+  return requisitions;
 }

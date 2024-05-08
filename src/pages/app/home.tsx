@@ -8,16 +8,16 @@ export function Home() {
       <Helmet title="Home" />
       <div className="flex min-h-screen items-center justify-center gap-6">
         <Button variant={"outline"} size={"lg"} className="text-xl">
-          <Link to={"/"}> Lista de Peças</Link>
+          <Link to={"/"}>Peças</Link>
         </Button>
         <Button variant={"outline"} size={"lg"} className="text-xl">
-          <Link to={"/"}>Catálogo de Peças</Link>
+          <Link to={"/orders"}>Pedidos</Link>
+        </Button>
+        <Button variant={"outline"} size={"lg"} className="text-xl">
+          <Link to={"/services"}>Serviços</Link>
         </Button>
         <Button variant={"outline"} size={"lg"} className="text-xl" asChild>
-          <Link to={"/list"}>Lista de Requisições</Link>
-        </Button>
-        <Button variant={"outline"} size={"lg"} className="text-xl" asChild>
-          <Link to={"/"}>Requisição de Peça</Link>
+          <Link to={"/requisitions"}>Requisições</Link>
         </Button>
       </div>
     </>

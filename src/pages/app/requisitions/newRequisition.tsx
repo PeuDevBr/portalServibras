@@ -3,18 +3,19 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
 
+import { setRequisitionsAcess } from "@/services/dataAcess/requisitionAcess";
+
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale/pt-BR";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { setRequisitionsAction } from "@/services/actions/requisitionsAction";
 
 const newOrderForm = z.object({
   technicianName: z.string(),
   itemDescription: z.string(),
-  amount: z.number(),
+  amount: z.string(),
 });
 
 type newOrderForm = z.infer<typeof newOrderForm>;
@@ -36,7 +37,7 @@ export function NewRequisition({ DialogClose }: any) {
 
       const id = String(new Date().getTime());
 
-      setRequisitionsAction(
+      setRequisitionsAcess(
         {
           technicianName: data.technicianName.toUpperCase(),
           itemDescription: data.itemDescription.toUpperCase(),
@@ -46,8 +47,8 @@ export function NewRequisition({ DialogClose }: any) {
         },
         id,
       );
-    } catch (e) {
-      toast.error(`Error: ${e}`);
+    } catch (error) {
+      toast.error(`Error: ${error}`);
     }
   }
 
@@ -85,7 +86,7 @@ export function NewRequisition({ DialogClose }: any) {
             <Label htmlFor="amount">Quantidade</Label>
             <Input
               id="amount"
-              type="number"
+              type="string"
               {...register("amount", { required: true })}
             />
           </div>

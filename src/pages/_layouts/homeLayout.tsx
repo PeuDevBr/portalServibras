@@ -9,16 +9,16 @@ export function HomeLayout() {
         <div className="flex items-center gap-3">
           <div className="flex gap-1">
             <div className="flex flex-col gap-1">
-              <AirVent className="h-4 w-4" />
-              <Heater className="h-4 w-4" />
+              <AirVent className="h-5 w-5" />
+              <Heater className="h-5 w-5" />
             </div>
             <div className="flex flex-col gap-1">
-              <Refrigerator className="h-4 w-4" />
-              <WashingMachine className="h-4 w-4" />
+              <Refrigerator className="h-5 w-5" />
+              <WashingMachine className="h-5 w-5" />
             </div>
           </div>
 
-          <div className="text-4xl font-semibold antialiased">Servibras</div>
+          <div className="text-5xl font-semibold antialiased">Servibras</div>
         </div>
 
         <ThemeToggle />

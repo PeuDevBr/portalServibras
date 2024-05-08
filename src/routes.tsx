@@ -1,11 +1,15 @@
 import { createBrowserRouter } from "react-router-dom";
 import { Home } from "./pages/app/home";
-import { NewRequisition } from "./pages/app/requisitions/newReqForm";
 import { HomeLayout } from "./pages/_layouts/homeLayout";
 import { OrderLayout } from "./pages/_layouts/orderLayout";
 import { AuthLayout } from "./pages/_layouts/authLayout";
 import { SignIn } from "./pages/auth/sign-in";
-import { RequisitionsList } from "./pages/app/requisitions/requisitionsList";
+import { RequisitionsList } from "./pages/app/requisitions/_index";
+import { ServiceOrders } from "./pages/app/servicesOrders/_index";
+import { PartsOrders } from "./pages/app/partsOrders/_index";
+import { OrdersContextProvider } from "./contexts/partsOrdersContext";
+import { RequisitionsContextProvider } from "./contexts/RequisitionsContex";
+import { ArchivedOrdersList } from "./pages/app/partsOrders/archivedList";
 
 export const router = createBrowserRouter([
   {
@@ -16,12 +20,49 @@ export const router = createBrowserRouter([
   {
     path: "/",
     element: <OrderLayout />,
-    children: [{ path: "/orders", element: <NewRequisition /> }],
+    children: [{ path: "/services", element: <ServiceOrders /> }],
   },
   {
     path: "/",
     element: <OrderLayout />,
-    children: [{ path: "/list", element: <RequisitionsList /> }],
+    children: [
+      {
+        path: "/orders",
+        element: (
+          <OrdersContextProvider>
+            <PartsOrders />
+          </OrdersContextProvider>
+        ),
+      },
+    ],
+  },
+  {
+    path: "/",
+    element: <OrderLayout />,
+    children: [
+      {
+        path: "/archivedOrders",
+        element: (
+          <OrdersContextProvider>
+            <ArchivedOrdersList />
+          </OrdersContextProvider>
+        ),
+      },
+    ],
+  },
+  {
+    path: "/",
+    element: <OrderLayout />,
+    children: [
+      {
+        path: "/requisitions",
+        element: (
+          <RequisitionsContextProvider>
+            <RequisitionsList />
+          </RequisitionsContextProvider>
+        ),
+      },
+    ],
   },
   {
     path: "/",

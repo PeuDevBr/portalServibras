@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dialog";
 import { Plus } from "lucide-react";
 
-import { NewRequisition } from "./newReqForm";
+import { NewRequisition } from "./newRequisition";
 
 export function NewRequisitionDialog() {
   return (

@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 
-import { NewRequisitionDialog } from "./newReqDialog";
+import { NewRequisitionDialog } from "./requisitionDialog";
 
 import { X } from "lucide-react";
 
@@ -14,7 +14,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { RequisitionsContext } from "@/contexts/RequisitionsContex";
-import { FilterRequisitionList } from "./filterRequisitionList";
+import { NewFilterRequisitionList } from "./requisitionsFilter";
 export function RequisitionsList() {
   const { handleDeleteRequisition, requisitionsList, getRequisitionsList } =
     useContext(RequisitionsContext);
@@ -25,10 +25,9 @@ export function RequisitionsList() {
 
   return (
     <div className="flex flex-col items-center pb-20">
-      <h3 className="pb-12 text-3xl">Lista de requisições</h3>
-
-      <div className="w-full pb-10">
-        <FilterRequisitionList />
+      <div className="w-full pb-4">
+        <h3 className="pb-4 text-3xl font-bold">Lista de requisições</h3>
+        <NewFilterRequisitionList />
       </div>
       <Table>
         <TableHeader>
