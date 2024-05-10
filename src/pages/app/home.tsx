@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 
 export function Home() {
+  console.log("Rendering");
   return (
     <>
       <Helmet title="Home" />

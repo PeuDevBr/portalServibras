@@ -1,7 +1,6 @@
 import { setArchivedOrdersAcess } from "@/services/dataAcess/archivedOrder";
 import {
   deleteOrdersAcess,
-  getOrdersAcess,
   setOrdersAcess,
   updateOrdersAcess,
 } from "@/services/dataAcess/orderAcess";
@@ -9,8 +8,8 @@ import { getOrdersObservers } from "@/services/observers/partsOrdersObservers";
 import { createContext, useState } from "react";
 import { toast } from "sonner";
 
-import { storage } from "@/firebase.Config";
-import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { formatDistanceToNow } from "date-fns";
+import { ptBR } from "date-fns/locale/pt-BR";
 
 interface Order {
   orderDate: string;
@@ -34,19 +33,12 @@ interface filterType {
 interface OrdersContextType {
   ordersList: Order[];
   getOrdersList: () => void;
-  setFilteredList: () => void;
   removeFilters: () => void;
   addOrder: (order: AddOrder) => void;
   updateOrder: (order: Order) => void;
   deleteOrder: (id: string) => void;
   archiveOrder: (order: Order) => void;
-  uploadFile: (event: any) => void;
   setHandleFilteredList: ({ supplier, status }: filterType) => void;
-}
-
-interface UploadFileType {
-  event: any;
-  id: string;
 }
 
 interface OrdersContextProviderProps {
@@ -61,47 +53,32 @@ export function OrdersContextProvider({
   const [ordersList, setOrdersList] = useState<Order[]>([]);
   const [listToFilter, setListToFilter] = useState<Order[]>([]);
 
-  function setFilteredList() {
-    getOrdersAcess().then((res: any) => {
-      setListToFilter(res);
-    });
-  }
-
-  if (listToFilter.length < ordersList.length) {
-    setFilteredList();
-  }
-
   const getOrdersList = () => {
     getOrdersObservers(setOrdersList);
+    getOrdersObservers(setListToFilter);
   };
 
   const setHandleFilteredList = ({ supplier, status }: filterType) => {
-    if (!supplier && status) {
-      const filteredList = listToFilter.filter(
-        (order) => order.status === status,
-      );
-      setOrdersList(filteredList);
-
+    if (!supplier && !status) {
+      //setOrdersList(listToFilter);
       return;
     }
 
-    if (supplier && !status) {
-      const filteredList = listToFilter.filter(
-        (order) => order.supplier === supplier,
-      );
-      setOrdersList(filteredList);
-
-      return;
-    }
+    let filteredList = listToFilter;
 
     if (supplier && status) {
-      const filteredList = listToFilter
-        .filter((order) => order.supplier === supplier)
-        .filter((order) => order.status === status);
-      setOrdersList(filteredList);
-
-      return;
+      filteredList = listToFilter.filter(
+        (order) => order.supplier === supplier && order.status === status,
+      );
+    } else if (supplier) {
+      filteredList = listToFilter.filter(
+        (order) => order.supplier === supplier,
+      );
+    } else if (status) {
+      filteredList = listToFilter.filter((order) => order.status === status);
     }
+
+    setOrdersList([...filteredList]);
   };
 
   const removeFilters = () => {
@@ -126,7 +103,7 @@ export function OrdersContextProvider({
 
   const updateOrder = (order: Order) => {
     updateOrdersAcess(order, order.id);
-    setFilteredList();
+   // setFilteredList();
   };
 
   const deleteOrder = (id: string) => {
@@ -139,62 +116,50 @@ export function OrdersContextProvider({
     orderDate,
     status,
     id,
+    url,
   }: Order) => {
     try {
       if (status !== "Pedido entregue") {
         throw new Error("Pedido não entregue!");
       }
+
+      // Arquiva o pedido
       setArchivedOrdersAcess(
         {
           supplier,
           orderNumber,
-          orderDate,
+          deliveryDate: formatDistanceToNow(orderDate, {
+            locale: ptBR,
+          }),
           status,
           id,
+          url,
         },
         id,
       );
+
+      // Exclui o pedido arquivado
+      deleteOrdersAcess(id);
     } catch (error) {
+      // Retorna o erro como um objeto
       toast.error(`${error}`);
-
-      return;
+      return { error: (error as Error).message };
     }
-
-    deleteOrdersAcess(id);
   };
 
-  const uploadFile = ({ event }: UploadFileType) => {
-    event.preventDefault();
-    const file = event.target[0]?.files[0];
-    if (!file) return;
-
-    const storageRef = ref(storage, `images/${"id"}`);
-    const uploadTask = uploadBytesResumable(storageRef, file);
-
-    uploadTask.on(
-      "state_changed",
-
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          console.log(downloadURL);
-        });
-      },
-    );
-  };
+  
 
   return (
     <OrdersContext.Provider
       value={{
         ordersList,
         getOrdersList,
-        setFilteredList,
         removeFilters,
         setHandleFilteredList,
         addOrder,
         updateOrder,
         deleteOrder,
         archiveOrder,
-        uploadFile,
       }}
     >
       {children}

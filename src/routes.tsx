@@ -7,8 +7,9 @@ import { SignIn } from "./pages/auth/sign-in";
 import { RequisitionsList } from "./pages/app/requisitions/_index";
 import { ServiceOrders } from "./pages/app/servicesOrders/_index";
 import { PartsOrders } from "./pages/app/partsOrders/_index";
-import { OrdersContextProvider } from "./contexts/partsOrdersContext";
+import { OrdersContextProvider } from "./contexts/ordersContext";
 import { RequisitionsContextProvider } from "./contexts/RequisitionsContex";
+import { ArchivedOrdersContextProvider } from "./contexts/archivedOrdersContext";
 import { ArchivedOrdersList } from "./pages/app/partsOrders/archivedList";
 
 export const router = createBrowserRouter([
@@ -43,9 +44,9 @@ export const router = createBrowserRouter([
       {
         path: "/archivedOrders",
         element: (
-          <OrdersContextProvider>
+          <ArchivedOrdersContextProvider>
             <ArchivedOrdersList />
-          </OrdersContextProvider>
+          </ArchivedOrdersContextProvider>
         ),
       },
     ],

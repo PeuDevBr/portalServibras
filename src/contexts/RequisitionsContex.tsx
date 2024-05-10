@@ -6,7 +6,6 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale/pt-BR";
 import {
   deleteRequisitionsAcess,
-  getRequisitionsAcess,
 } from "@/services/dataAcess/requisitionAcess";
 
 interface Requisition {
@@ -42,18 +41,9 @@ export function RequisitionsContextProvider({
   const [requisitionsList, setRequisitionsList] = useState<any[]>([]);
   const [listToFilter, setListToFilter] = useState<any[]>([]);
 
-  function setFilteredList() {
-    getRequisitionsAcess().then((res: any) => {
-      setListToFilter(res);
-    });
-  }
-
-  if (listToFilter.length < requisitionsList.length) {
-    setFilteredList();
-  }
-
   const getRequisitionsList = () => {
     getRequisitionsObservers(setRequisitionsList);
+    getRequisitionsObservers(setListToFilter);
   };
 
   function handleSetFilteredList({ date, technicianName }: filterType) {
@@ -99,7 +89,7 @@ export function RequisitionsContextProvider({
 
   async function handleDeleteRequisition(id: string) {
     await deleteRequisitionsAcess(id);
-    setFilteredList();
+    //setFilteredList();
   }
 
   return (

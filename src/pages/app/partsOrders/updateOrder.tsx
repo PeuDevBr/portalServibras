@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/select";
 import { toast } from "sonner";
 import { useContext, useState } from "react";
-import { OrdersContext } from "@/contexts/partsOrdersContext";
+import { OrdersContext } from "@/contexts/ordersContext";
 import { Upload } from "../upload/_index";
 
 const newOrderForm = z.object({
@@ -60,7 +60,7 @@ export function UpdateOrder({ DialogClose, order }: UpdateOrderPropsTypes) {
         orderDate: order.orderDate,
         status: status,
         id: order.id,
-        url: (url === "" ? order.url : url),
+        url: url === "" ? order.url : url,
       });
     } catch (error) {
       toast.error(`Error aqui: ${error}`);
@@ -118,6 +118,9 @@ export function UpdateOrder({ DialogClose, order }: UpdateOrderPropsTypes) {
                       </SelectItem>
                       <SelectItem value="Retido na transportadora">
                         Retido na transportadora
+                      </SelectItem>
+                      <SelectItem value="Entrega parcial">
+                        Entrega parcial
                       </SelectItem>
                       <SelectItem value="Pedido entregue">
                         Pedido entregue

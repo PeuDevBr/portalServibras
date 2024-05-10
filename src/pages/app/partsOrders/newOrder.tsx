@@ -16,7 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useContext } from "react";
-import { OrdersContext } from "@/contexts/partsOrdersContext";
+import { OrdersContext } from "@/contexts/ordersContext";
 
 const newOrderForm = z.object({
   supplier: z.string(),

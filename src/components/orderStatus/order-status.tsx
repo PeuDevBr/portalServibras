@@ -25,6 +25,10 @@ export function OrderStatus({ status }: OrderStatusPropsType) {
         <span className="h-2 w-2 rounded-full bg-yellow-600" />
       )}
 
+      {status === "Entrega parcial" && (
+        <span className="h-2 w-2 rounded-full bg-blue-300" />
+      )}
+
       {status === "Pedido entregue" && (
         <span className="h-2 w-2 rounded-full bg-blue-600" />
       )}

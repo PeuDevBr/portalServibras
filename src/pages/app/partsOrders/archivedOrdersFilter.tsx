@@ -16,7 +16,7 @@ import {
 import { Search, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { OrdersContext } from "@/contexts/ordersContext";
+import { ArchivedOrdersContext } from "@/contexts/archivedOrdersContext";
 
 const filterSchema = z.object({
   supplier: z.string().optional(),
@@ -24,12 +24,14 @@ const filterSchema = z.object({
 });
 
 type FilterSchema = z.infer<typeof filterSchema>;
-export function OrdersFilter() {
+export function ArchivedOrdersFilter() {
   const { control, handleSubmit, reset } = useForm<FilterSchema>({
     resolver: zodResolver(filterSchema),
   });
 
-  const { setHandleFilteredList, removeFilters } = useContext(OrdersContext);
+  const { setHandleFilteredList, removeFilters } = useContext(
+    ArchivedOrdersContext,
+  );
 
   function handleFilterList(data: FilterSchema) {
     setHandleFilteredList(data);
@@ -100,9 +102,6 @@ export function OrdersFilter() {
                   <SelectItem value="Pedido enviado">Pedido enviado</SelectItem>
                   <SelectItem value="Bloqueio financeiro">
                     Bloqueio financeiro
-                  </SelectItem>
-                  <SelectItem value="Retido na transportadora">
-                    Retido na transportadora
                   </SelectItem>
                   <SelectItem value="Retenção fiscal">
                     Retenção fiscal
