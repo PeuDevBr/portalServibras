@@ -13,7 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { RequisitionsContext } from "@/contexts/RequisitionsContex";
+import { RequisitionsContext } from "@/contexts/requisitionsContex";
 import { NewFilterRequisitionList } from "./requisitionsFilter";
 export function RequisitionsList() {
   const { handleDeleteRequisition, requisitionsList, getRequisitionsList } =

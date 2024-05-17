@@ -1,4 +1,4 @@
-import { getArchivedOrdersObservers } from "@/services/observers/partsOrdersObservers";
+import { getArchivedOrdersObservers } from "@/services/observers/ordersObservers";
 import { createContext, useState } from "react";
 
 interface Order {

@@ -10,7 +10,10 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 
+import { getStorage, ref, deleteObject } from "firebase/storage";
+
 const dbCollection = "partsOrders";
+ const storage = getStorage();
 
 export async function addOrdersAcess(body: any) {
   const response = await addDoc(collection(db, dbCollection), body);
@@ -31,9 +34,11 @@ export async function updateOrdersAcess(body: any, id: string) {
 }
 
 export async function deleteOrdersAcess(id: string) {
-  const requsitionDoc = doc(db, dbCollection, id);
+  const orderToDeleteDoc = doc(db, dbCollection, id);
+  const fileToDeleteRef = ref(storage, `orders/${id}`);
 
-  const response = await deleteDoc(requsitionDoc);
+  const response = await deleteDoc(orderToDeleteDoc);
+  deleteObject(fileToDeleteRef);
 
   return response;
 }

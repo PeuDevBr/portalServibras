@@ -4,14 +4,14 @@ import { storage } from "@/firebase.Config";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { useState } from "react";
 
-export function Upload({ setUrl, orderId }: any) {
+export function Upload({ setUrl, productCode }: any) {
   const [img, setImg] = useState<any>("");
   const [loaded, setLoaded] = useState<any>(false);
   const [fileIsSelected, setFileIsSelected] = useState<any>(false);
 
   const handleClick = () => {
     if (img !== null) {
-      const imgRef = ref(storage, `orders/${orderId}`);
+      const imgRef = ref(storage, `products/${productCode}`);
       uploadBytes(imgRef, img).then((value: any) => {
         getDownloadURL(value.ref).then((url) => {
           setUrl(url);

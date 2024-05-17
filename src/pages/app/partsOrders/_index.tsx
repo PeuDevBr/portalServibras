@@ -2,7 +2,7 @@ import { Table } from "@/components/ui/table";
 
 import { NewOrderDialog } from "./orderDialog";
 import { useContext, useEffect } from "react";
-import { OrdersContext } from "@/contexts/ordersContext";
+import { OrdersContext } from "@/contexts/activeOrdersContext";
 import { OrdersFilter } from "./ordersFilter";
 import { TableHeaders } from "./components/tableHeader";
 import { TableBodys } from "./components/tableBody";
@@ -11,6 +11,10 @@ export function PartsOrders() {
   const { ordersList, getOrdersList, deleteOrder, archiveOrder } =
     useContext(OrdersContext);
 
+  useEffect(() => {
+    getOrdersList();
+  }, []);
+
   function handleDeleteOrder(id: string) {
     deleteOrder(id);
   }
@@ -18,10 +22,6 @@ export function PartsOrders() {
   function handleArchiveOrder(order: any) {
     archiveOrder(order);
   }
-
- useEffect(() => {
-    getOrdersList();
-  }, []);
 
   return (
     <div className="w-full p-4">

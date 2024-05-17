@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/select";
 import { toast } from "sonner";
 import { useContext, useState } from "react";
-import { OrdersContext } from "@/contexts/ordersContext";
+import { OrdersContext } from "@/contexts/activeOrdersContext";
 import { Upload } from "../upload/_index";
 
 const newOrderForm = z.object({
@@ -79,7 +79,7 @@ export function UpdateOrder({ DialogClose, order }: UpdateOrderPropsTypes) {
 
         <div className="space-y-2">
           <Label htmlFor="uploadInput">Anexar pedido</Label>
-          <Upload id="uploadInput" setUrl={setUrl} />
+          <Upload id="uploadInput" setUrl={setUrl} orderId={order.id} />
         </div>
 
         <form

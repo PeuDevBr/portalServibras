@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 export function HomeLayout() {
   return (
     <div>
-      <div className="ml-8 mr-8 mt-4 flex justify-between ">
+      <div className="px-8 mt-4 flex justify-between ">
         <div className="flex items-center gap-3">
           <div className="flex gap-1">
             <div className="flex flex-col gap-1">

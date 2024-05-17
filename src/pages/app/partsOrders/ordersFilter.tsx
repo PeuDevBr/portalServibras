@@ -16,7 +16,7 @@ import {
 import { Search, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { OrdersContext } from "@/contexts/ordersContext";
+import { OrdersContext } from "@/contexts/activeOrdersContext";
 
 const filterSchema = z.object({
   supplier: z.string().optional(),

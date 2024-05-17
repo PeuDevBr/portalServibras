@@ -2,15 +2,16 @@ import { createBrowserRouter } from "react-router-dom";
 import { Home } from "./pages/app/home";
 import { HomeLayout } from "./pages/_layouts/homeLayout";
 import { OrderLayout } from "./pages/_layouts/orderLayout";
-import { AuthLayout } from "./pages/_layouts/authLayout";
-import { SignIn } from "./pages/auth/sign-in";
 import { RequisitionsList } from "./pages/app/requisitions/_index";
 import { ServiceOrders } from "./pages/app/servicesOrders/_index";
 import { PartsOrders } from "./pages/app/partsOrders/_index";
-import { OrdersContextProvider } from "./contexts/ordersContext";
-import { RequisitionsContextProvider } from "./contexts/RequisitionsContex";
+import { OrdersContextProvider } from "./contexts/activeOrdersContext";
+import { RequisitionsContextProvider } from "./contexts/requisitionsContex";
 import { ArchivedOrdersContextProvider } from "./contexts/archivedOrdersContext";
 import { ArchivedOrdersList } from "./pages/app/partsOrders/archivedList";
+import { Products } from "./pages/app/products/_index";
+import { ProductsContextProvider } from "./contexts/productsContext";
+//import { CardWithForm } from "./pages/app/products/card";
 
 export const router = createBrowserRouter([
   {
@@ -66,8 +67,11 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: "/",
-    element: <AuthLayout />,
-    children: [{ path: "/sign-in", element: <SignIn /> }],
+    path: "/products",
+    element: (
+      <ProductsContextProvider>
+        <Products />
+      </ProductsContextProvider>
+    ),
   },
 ]);

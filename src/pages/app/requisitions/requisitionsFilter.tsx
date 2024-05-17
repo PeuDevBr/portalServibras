@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { RequisitionsContext } from "@/contexts/RequisitionsContex";
+import { RequisitionsContext } from "@/contexts/requisitionsContex";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Search, X } from "lucide-react";
 import { useContext } from "react";
@@ -52,7 +52,7 @@ export function NewFilterRequisitionList() {
   }
 
   function handleReset() {
-    form.reset({ technicianName: ""});
+    form.reset({ technicianName: "" });
     handleRemoveFilters();
   }
 

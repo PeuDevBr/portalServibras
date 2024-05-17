@@ -4,7 +4,7 @@ import {
   setOrdersAcess,
   updateOrdersAcess,
 } from "@/services/dataAcess/orderAcess";
-import { getOrdersObservers } from "@/services/observers/partsOrdersObservers";
+import { getOrdersObservers } from "@/services/observers/ordersObservers";
 import { createContext, useState } from "react";
 import { toast } from "sonner";
 
@@ -60,7 +60,6 @@ export function OrdersContextProvider({
 
   const setHandleFilteredList = ({ supplier, status }: filterType) => {
     if (!supplier && !status) {
-      //setOrdersList(listToFilter);
       return;
     }
 
@@ -103,7 +102,7 @@ export function OrdersContextProvider({
 
   const updateOrder = (order: Order) => {
     updateOrdersAcess(order, order.id);
-   // setFilteredList();
+    // setFilteredList();
   };
 
   const deleteOrder = (id: string) => {
@@ -146,8 +145,6 @@ export function OrdersContextProvider({
       return { error: (error as Error).message };
     }
   };
-
-  
 
   return (
     <OrdersContext.Provider
