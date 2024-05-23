@@ -1,13 +1,13 @@
 import { Table } from "@/components/ui/table";
 
-import { NewOrderDialog } from "./orderDialog";
+import { NewOrderDialog } from "../orderDialog";
 import { useContext, useEffect } from "react";
 import { OrdersContext } from "@/contexts/activeOrdersContext";
-import { OrdersFilter } from "./ordersFilter";
-import { TableHeaders } from "./components/tableHeader";
-import { TableBodys } from "./components/tableBody";
+import { OrdersFilter } from "../ordersFilter";
+import { TableHeaders } from "../components/tableHeader";
+import { TableBodys } from "../components/tableBody";
 
-export function PartsOrders() {
+export function ActiveOrdersList() {
   const { ordersList, getOrdersList, deleteOrder, archiveOrder } =
     useContext(OrdersContext);
 

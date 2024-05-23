@@ -83,6 +83,7 @@ export function NewFilterRequisitionList() {
                     <SelectItem value="CICERO">Cícero</SelectItem>
                     <SelectItem value="DENILSON">Denilson</SelectItem>
                     <SelectItem value="DIEL">Diel</SelectItem>
+                    <SelectItem value="JEFERSON">Jeferson</SelectItem>
                     <SelectItem value="EDSON">Edson</SelectItem>
                     <SelectItem value="EDUARDO">Eduardo</SelectItem>
                     <SelectItem value="EMANUEL">Emanuel</SelectItem>

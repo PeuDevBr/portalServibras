@@ -5,10 +5,11 @@ import {
   DialogContent,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Plus, RefreshCw } from "lucide-react";
+import { FileSliders, Plus } from "lucide-react";
 //import { NewOrder } from "../partsOrders/newOrder";
 import { AddProduct } from "./addProduct";
-import { UpdateProduct } from "./updateProduct";
+//import { UpdateProduct } from "./updateProduct";
+import { UpdateProduct } from "../updateProduct/[code]";
 
 export function AddProductDialog() {
   return (
@@ -30,16 +31,16 @@ export function AddProductDialog() {
   );
 }
 
-export function UpdateProductDialog({ product }: any) {
+export function UpdateProductDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button variant={"ghost"} size={"sm"} title="Atualizar">
-          <RefreshCw className="h-4 w-4 text-green-500 hover:scale-150 hover:transition-all" />
+          <FileSliders className="h-4 w-4 text-green-500 hover:scale-150 hover:transition-all" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-h-[625px] sm:max-w-[425px]">
-        <UpdateProduct DialogClose={DialogClose} product={product} />
+      <DialogContent className="">
+        <UpdateProduct />
       </DialogContent>
     </Dialog>
   );

@@ -7,7 +7,7 @@ const dbLoadDBCollection = "loadDB";
 
 const webDBRef = doc(db, "loadDB", "JeRM5lrLePjgfthnuvK0");
 
-export async function LoadDB() {
+export async function loadWebDataBase() {
   const docSnap = await getDoc(webDBRef);
   const refProductsDB = query(collection(db, dbProductsCollection));
 
@@ -22,6 +22,8 @@ export async function LoadDB() {
     const webDBVersion = docSnap.data().webDBVersion;
 
     if (webDBVersion !== localDBVersion) {
+      console.log("webDBVersion loaded successfully");
+
       onSnapshot(refProductsDB, (snapshot) => {
         const orders: any[] = [];
         snapshot.forEach((doc) => {
@@ -39,7 +41,7 @@ export async function LoadDB() {
   }
 }
 
-export async function updateLoadDBDataAcess() {
+export async function updateWebDataBaseVersion() {
   const id = "JeRM5lrLePjgfthnuvK0";
 
   const docSnap = await getDoc(webDBRef);
@@ -55,4 +57,12 @@ export async function updateLoadDBDataAcess() {
 
     return response;
   }
+}
+
+export function updateLocalDataBaseVersion() {
+  const localDBVersion = localStorage.getItem("localDBVersion");
+
+  const updatedLocalDBVersion = String(Number(localDBVersion) + 1);
+
+  localStorage.setItem("localDBVersion", updatedLocalDBVersion);
 }

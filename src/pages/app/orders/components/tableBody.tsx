@@ -2,7 +2,7 @@ import { OrderStatus } from "@/components/orderStatus/order-status";
 import { Button } from "@/components/ui/button";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { FolderSymlink, Search, X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { UpdateOrderDialog } from "../orderDialog";
 import { format, formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale/pt-BR";
@@ -34,9 +34,9 @@ export function TableBodys({
         <TableRow key={order.id}>
           <TableCell>
             <Button variant="ghost" size={"sm"}>
-              <Link to={order.url} target="_blank">
+              <NavLink to={`/order/${order.id}`}>
                 <Search className="h-4 w-4" />
-              </Link>
+              </NavLink>
             </Button>
           </TableCell>
           <TableCell className="font-medium">{order.supplier}</TableCell>

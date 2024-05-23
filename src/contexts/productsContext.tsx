@@ -1,5 +1,8 @@
-import { deleteProductAcess, setProductsAcess, updateProductAcess } from "@/services/dataAcess/productsAcess";
-import { getProductsObservers } from "@/services/observers/productsObservers";
+import {
+  deleteProductAcess,
+  setProductsAcess,
+  updateProductAcess,
+} from "@/services/dataAcess/productsAcess";
 import { createContext, useState } from "react";
 
 interface productProps {
@@ -7,18 +10,10 @@ interface productProps {
   code: string;
   brand: string;
   subject: string;
-  model: string;
-  version?: string;
-  pnc?: string;
-  amount: number;
-  title: string;
-  url: string;
+  model?: string;
+  title?: string;
+  url?: string;
 }
-
-/*interface filterType {
-  supplier?: string;
-  status?: string;
-}*/
 
 interface NewListFormData {
   textInput: string;
@@ -26,12 +21,10 @@ interface NewListFormData {
 
 interface ProductsContextType {
   productsList: productProps[];
-  getProductsList: () => void;
-  setNewProduct: (data: any) => void;
-  updateProduct: (data: any) => void;
+  createProduct: (data: productProps) => void;
+  updateProduct: (data: productProps) => void;
   deleteProduct: (code: string) => void;
   setFilteredList: (textInput: NewListFormData) => void;
-  updateProductsList: (data: any) => void;
 }
 
 interface OrdersContextProviderProps {
@@ -44,12 +37,6 @@ export function ProductsContextProvider({
   children,
 }: OrdersContextProviderProps) {
   const [productsList, setProductsList] = useState<productProps[]>([]);
-  //const [listToFilter, setListToFilter] = useState<productProps[]>([]);
-
-  /*const get10RandomProducts = () => {
-    const shuffled = productsList.sort(() => 0.5 - Math.random());
-    setProductsList(shuffled.slice(0, 10));
-  };*/
 
   function setFilteredList({ textInput }: NewListFormData) {
     const searchText = textInput.toLowerCase().trim();
@@ -57,68 +44,107 @@ export function ProductsContextProvider({
     const jsonData = localStorage.getItem("productsList");
 
     if (jsonData) {
-      // Convertendo os dados de volta para um objeto JavaScript
       const listToFilter = JSON.parse(jsonData);
 
       if (searchText !== "") {
-        const filteredList = listToFilter.filter((product: any) => {
-          // Aqui você pode ajustar as condições de acordo com sua necessidade
+        const filteredList = listToFilter.filter((product: productProps) => {
           return Object.values(product).some(
             (proprietyValue) =>
               typeof proprietyValue === "string" &&
               proprietyValue.toLowerCase().includes(searchText),
           );
         });
+
         setProductsList(filteredList.reverse());
         window.scrollTo(0, 0);
       }
     }
   }
 
-  const updateProductsList = (productList: any) => {
-    setProductsList(productList);
-  }
+  const createProduct = (data: productProps) => {
+    const productToAdd = {
+      brand: data.brand,
+      code: data.code,
+      name: data.name,
+      subject: data.subject,
+      model: data.model || "",
+      title: data.title || "",
+      url: data.url || "",
+    };
 
-  const setNewProduct = (data: any) => {
-    setProductsAcess(
-      {
-        brand: data.brand,
-        code: data.code,
-        name: data.name,
-        subject: data.subject || "",
-        model: data.model || "",
-        version: data.version || "",
-        pnc: data.pnc || "",
-        quantaty: data.quantaty || "",
-        title: data.title || "",
-      },
-      data.code,
-    );
+    const jsonData = localStorage.getItem("productsList");
+
+    if (jsonData) {
+      const dataBaseList = JSON.parse(jsonData);
+
+      const newProductList = [...dataBaseList, productToAdd];
+
+      localStorage.setItem("productsList", JSON.stringify(newProductList));
+    }
+    setProductsList([productToAdd]);
+
+    setProductsAcess(productToAdd, data.code);
   };
 
   const updateProduct = (product: productProps) => {
+    const jsonData = localStorage.getItem("productsList");
+
+    if (jsonData) {
+      const productList = JSON.parse(jsonData);
+
+      const replaceProduct = (
+        updatedProductCode: string,
+        updatedProduct: productProps,
+      ) => {
+        const updatedItems = productList.map((product: productProps) =>
+          product.code === updatedProductCode ? updatedProduct : product,
+        );
+        return updatedItems;
+      };
+
+      const updatedItems = replaceProduct(product.code, product);
+
+      setProductsList(updatedItems);
+
+      localStorage.setItem("productsList", JSON.stringify(updatedItems));
+      const text = localStorage.getItem("textInput");
+      if (text !== null) {
+        setFilteredList({ textInput: text });
+      }
+    }
+
     updateProductAcess(product, product.code);
-    // setFilteredList();
   };
 
   const deleteProduct = (code: string) => {
-    deleteProductAcess(code);
-  };
+    const jsonData = localStorage.getItem("productsList");
 
-  const getProductsList = () => {
-    getProductsObservers(/*setProductsList*/);
+    if (jsonData) {
+      const dataBaseList = JSON.parse(jsonData);
+
+      const newDataBaseList = dataBaseList.filter(
+        (product: productProps) => product.code !== code,
+      );
+
+      const newProductList = productsList.filter(
+        (product: productProps) => product.code !== code,
+      );
+
+      setProductsList(newProductList);
+      localStorage.setItem("productsList", JSON.stringify(newDataBaseList));
+    }
+
+    deleteProductAcess(code);
   };
 
   return (
     <ProductsContext.Provider
       value={{
         productsList,
-        setNewProduct,
+        createProduct,
         updateProduct,
         deleteProduct,
-        getProductsList,
         setFilteredList,
-        updateProductsList,
       }}
     >
       {children}

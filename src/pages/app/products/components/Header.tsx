@@ -1,18 +1,18 @@
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ProductsContext } from "@/contexts/productsContext";
-import {
-  AirVent,
-  CornerDownLeft,
-  Heater,
-  Refrigerator,
-  Search,
-  WashingMachine,
-} from "lucide-react";
+import { Plus, Search } from "lucide-react";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { AddProductDialog } from "../productDialog";
 
 interface NewListFormData {
   textInput: string;
@@ -27,25 +27,29 @@ export function Header() {
     },
   });
 
-  function handleSearchList(textInput: NewListFormData) {
-    setFilteredList(textInput);
+  function handleSearchList(data: NewListFormData) {
+    setFilteredList(data);
+    localStorage.setItem("textInput", data.textInput);
   }
   return (
-    <div className="fixed left-0 top-0 z-10 flex w-full justify-between bg-background px-8 py-4">
-      <div className="flex items-center gap-3">
-        <div className="flex gap-1">
-          <div className="flex flex-col gap-1">
-            <AirVent className="h-5 w-5" />
-            <Heater className="h-5 w-5" />
-          </div>
-          <div className="flex flex-col gap-1">
-            <Refrigerator className="h-5 w-5" />
-            <WashingMachine className="h-5 w-5" />
-          </div>
-        </div>
-
-        <div className="text-5xl font-semibold antialiased">Servibras</div>
-      </div>
+    <div className="fixed left-0 top-0 z-10 flex w-full justify-between bg-background px-12 py-4">
+      <Breadcrumb className="hidden md:flex">
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link to="/">Home</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <Link to="/products">Lista</Link>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <Link to="/productCatalog">Catalogo</Link>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
 
       <div></div>
 
@@ -53,18 +57,26 @@ export function Header() {
         className="mr-28 flex items-center"
         onSubmit={handleSubmit(handleSearchList)}
       >
-        <Input type="text" className="w-[400px]" {...register("textInput")} />
-        <Button type="submit" variant={"outline"} className="ml-2">
+        <Input
+          type="text"
+          className="w-[400px] border-2"
+          {...register("textInput")}
+        />
+        <Button type="submit" variant={"outline"} className="ml-2 border-2">
           <Search className=" h-4 w-4" />
         </Button>
       </form>
 
-      <AddProductDialog />
-
-      <div className="flex items-center">
-        <Button variant={"ghost"} size={"sm"} asChild>
-          <Link to={"/"}>
-            <CornerDownLeft className="h-4 w-4" />
+      <div>
+        <Button
+          variant={"outline"}
+          size={"sm"}
+          className="flex items-center gap-2 border-2"
+          asChild
+        >
+          <Link to={"/addProduct"}>
+            <Plus className="h-4 w-4 text-green-500" />
+            Nova peça
           </Link>
         </Button>
       </div>

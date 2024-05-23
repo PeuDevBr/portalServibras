@@ -24,11 +24,6 @@ const newProductProps = z.object({
   code: z.string(),
   name: z.string(),
   subject: z.string(),
-  model: z.string().optional(),
-  version: z.string().optional(),
-  pnc: z.string().optional(),
-  quantaty: z.string().optional(),
-  title: z.string().optional(),
 });
 
 type NewOrderForm = z.infer<typeof newProductProps>;
@@ -36,11 +31,10 @@ type NewOrderForm = z.infer<typeof newProductProps>;
 export function AddProduct({ DialogClose }: any) {
   const form = useForm<NewOrderForm>({ mode: "onChange" });
 
-  const { setNewProduct } = useContext(ProductsContext);
+  const { createProduct } = useContext(ProductsContext);
 
   const handleAddNewOrder = (data: NewOrderForm) => {
-    console.log(data);
-    setNewProduct(data);
+    createProduct(data);
   };
 
   return (

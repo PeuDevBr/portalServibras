@@ -8,38 +8,33 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { useContext, useState } from "react";
 import { ProductsContext } from "@/contexts/productsContext";
-import { Upload } from "./upload/_index";
+import { UploadImage } from "./uploadImage";
 
-interface ProductProps {
+interface productProps {
   name: string;
   code: string;
   brand: string;
   subject: string;
-  model: string;
-  pnc: string;
-  version: string;
-  amount: string;
-  title: string;
-  url: string;
+  model?: string;
+  title?: string;
+  url?: string;
 }
 
 interface UpdateOrderPropsTypes {
-  product: ProductProps;
+  product: productProps;
   DialogClose: any;
 }
 
 interface UpdateFormTypes {
   model: string;
-  pnc: string;
-  version: string;
   title: string;
+  name: string;
 }
 
 const newOrderForm = z.object({
   model: z.string(),
-  pnc: z.string(),
-  version: z.string(),
   title: z.string(),
+  name: z.string(),
 });
 
 type newOrderForm = z.infer<typeof newOrderForm>;
@@ -48,27 +43,18 @@ export function UpdateProduct({ DialogClose, product }: UpdateOrderPropsTypes) {
   const form = useForm<newOrderForm>({ mode: "onChange" });
   const [url, setUrl] = useState<string>("");
 
-  console.log(url);
-
   const { updateProduct } = useContext(ProductsContext);
 
-  async function handleUpdateOrder({
-    model,
-    pnc,
-    version,
-    title,
-  }: UpdateFormTypes) {
+  async function handleUpdateProduct({ model, name, title }: UpdateFormTypes) {
     try {
       updateProduct({
-        name: product.name,
+        name: name,
         code: product.code,
         brand: product.brand,
         subject: product.subject,
         model: model || "",
-        pnc: pnc || "",
-        version: version || "",
-        amount: 0,
         title: title || "",
+        url,
       });
     } catch (error) {
       toast.error(`Error aqui: ${error}`);
@@ -87,13 +73,26 @@ export function UpdateProduct({ DialogClose, product }: UpdateOrderPropsTypes) {
 
         <div className="space-y-2">
           <Label htmlFor="uploadInput">Anexar foto</Label>
-          <Upload id="uploadInput" setUrl={setUrl} productCode={product.code} />
+          <UploadImage
+            id="uploadInput"
+            setUrl={setUrl}
+            productCode={product.code}
+          />
         </div>
 
         <form
-          onSubmit={form.handleSubmit(handleUpdateOrder)}
+          onSubmit={form.handleSubmit(handleUpdateProduct)}
           className="space-y-4"
         >
+          <div className="space-y-2">
+            <Label htmlFor="ordernumber">Descrição da peça</Label>
+            <Input
+              id="name"
+              type="text"
+              defaultValue={product.name}
+              {...form.register("name")}
+            />
+          </div>
           <div className="space-y-2">
             <Label htmlFor="ordernumber">Modelo do produto</Label>
             <Input
@@ -103,28 +102,6 @@ export function UpdateProduct({ DialogClose, product }: UpdateOrderPropsTypes) {
               {...form.register("model")}
             />
           </div>
-          {product.brand === "Electrolux" && (
-            <div className="space-y-2">
-              <Label htmlFor="ordernumber">PNC do produto</Label>
-              <Input
-                id="pnc"
-                type="text"
-                defaultValue={product.pnc}
-                {...form.register("pnc")}
-              />
-            </div>
-          )}
-          {product.brand === "Brastemp/Consul" && (
-            <div className="space-y-2">
-              <Label htmlFor="ordernumber">Versão do produto</Label>
-              <Input
-                id="version"
-                type="text"
-                defaultValue={product.version}
-                {...form.register("version")}
-              />
-            </div>
-          )}
           <div className="space-y-2">
             <Label htmlFor="ordernumber">Palavras-chave</Label>
             <Input

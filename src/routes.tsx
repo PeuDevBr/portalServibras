@@ -4,13 +4,18 @@ import { HomeLayout } from "./pages/_layouts/homeLayout";
 import { OrderLayout } from "./pages/_layouts/orderLayout";
 import { RequisitionsList } from "./pages/app/requisitions/_index";
 import { ServiceOrders } from "./pages/app/servicesOrders/_index";
-import { PartsOrders } from "./pages/app/partsOrders/_index";
+import { ActiveOrdersList } from "./pages/app/orders/activeOrders/_index";
 import { OrdersContextProvider } from "./contexts/activeOrdersContext";
 import { RequisitionsContextProvider } from "./contexts/requisitionsContex";
 import { ArchivedOrdersContextProvider } from "./contexts/archivedOrdersContext";
-import { ArchivedOrdersList } from "./pages/app/partsOrders/archivedList";
+import { ArchivedOrdersList } from "./pages/app/orders/archivedList";
 import { Products } from "./pages/app/products/_index";
 import { ProductsContextProvider } from "./contexts/productsContext";
+import { UpdateProduct } from "./pages/app/products/updateProduct/[code]";
+import { CreateProduct } from "./pages/app/products/createProduct/_index";
+import { Product } from "./pages/app/products/product/[code]";
+import { ActiveOrder } from "./pages/app/orders/activeOrders/[id]";
+import { ProductCatalog } from "./pages/app/products/productCatalog";
 //import { CardWithForm } from "./pages/app/products/card";
 
 export const router = createBrowserRouter([
@@ -32,7 +37,21 @@ export const router = createBrowserRouter([
         path: "/orders",
         element: (
           <OrdersContextProvider>
-            <PartsOrders />
+            <ActiveOrdersList />
+          </OrdersContextProvider>
+        ),
+      },
+    ],
+  },
+  {
+    path: "/",
+    element: <OrderLayout />,
+    children: [
+      {
+        path: "/order/:id",
+        element: (
+          <OrdersContextProvider>
+            <ActiveOrder />
           </OrdersContextProvider>
         ),
       },
@@ -71,6 +90,40 @@ export const router = createBrowserRouter([
     element: (
       <ProductsContextProvider>
         <Products />
+      </ProductsContextProvider>
+    ),
+  },
+  {
+    path: "/productCatalog",
+    element: (
+      <ProductsContextProvider>
+        <ProductCatalog />
+      </ProductsContextProvider>
+    ),
+  },
+
+  {
+    path: "/product/:code",
+    element: (
+      <ProductsContextProvider>
+        <Product />
+      </ProductsContextProvider>
+    ),
+  },
+
+  {
+    path: "/updateProduct/:code",
+    element: (
+      <ProductsContextProvider>
+        <UpdateProduct />
+      </ProductsContextProvider>
+    ),
+  },
+  {
+    path: "/addProduct",
+    element: (
+      <ProductsContextProvider>
+        <CreateProduct />
       </ProductsContextProvider>
     ),
   },
